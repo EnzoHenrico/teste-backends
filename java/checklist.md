@@ -7,10 +7,11 @@ Desafio em Java, código que consiga aprovar as propostas de financiamento basea
 - [x] Declarar funções para tratar tipos de mensagem diferentes
 - [x] Desestruturar as mensagens em dados separados
 - [x] Armazenar os dados em variaveis(utilizado uma matriz para acessar os dados)
-- [ ] Desenvolver as funções declaradas
-- [ ] Desenvolver condicionais para aprovação das propostas
+- [x] Desenvolver as funções declaradas
+- [x] Desenvolver condicionais para aprovação das propostas
 - [ ] Estruturar dados para resposta
-- [ ] Passar nos teste xD
+- [ ] Passar nos testes
+- [ ] Otimizar código
 
 ## Regras do evento
 
@@ -51,7 +52,7 @@ Mensagem do evento:
 - event_id: 72ff1d14-756a-4549-9185-e60e326baf1b,
 - event_schema: proposal
 - event_action: created
-- event_timestamp: created,2019-11-11T14:28:01Z
+- event_timestamp: 2019-11-11T14:28:01Z
 - proposal_id: 80921e5f-4307-4623-9ddb-5bf826a31dd7,
 - proposal_loan_value: 1141424.0
 - proposal_number_of_munthlyinstallments: 240

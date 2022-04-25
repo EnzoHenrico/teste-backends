@@ -79,11 +79,57 @@ public class Solution {
   }
 
   public static void validateProposal(String[][] data){
-    //not implemented  
+
+  // O valor do empréstimo deve estar entre R$ 30.000,00 e R$ 3.000.000,00
+  // O empréstimo deve ser pago em no mínimo 2 anos e no máximo 15 anos
+
+  for (int i = 0; i < data.length; i++){
+
+  String action = data[i][1];
+  Float value = Float.parseFloat(data[i][5]);
+  int mounths = Integer.parseInt(data[i][6]);
+
+    if(action == "proposal" 
+    && value  >= 30000.00
+    && value <= 3000000.00
+    && mounths >= 24
+    && mounths <= 180){
+      
+      validateWarantty(data, value);
+    }
+    else{
+      
+      System.out.println("Didn't passed");
+    }
   }
 
-  public static void validateWarantty(String data){
-    //not implemented  
+  }
+
+  public static void validateWarantty(String[][] data, Float loanValue){
+    
+    int warantyValue = 0;
+
+    for (int i = 0; i < data.length; i++){  
+
+      String action = data[i][1];
+      String state = data[i][7];
+      int value = Integer.parseInt(data[i][6]);
+
+      if(action == "waranty"
+      && state != "PR"
+      && state != "SC"
+      && state != "RS"){
+
+        warantyValue += value;
+      }
+      
+      if (warantyValue >= 2*loanValue){
+        System.out.println("Aprroved!");
+      }
+      else{
+        System.out.println("Didn't passed");
+      }
+    }
   }
 
 
