@@ -1,6 +1,4 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.text.*;
 import java.util.*;
 public class Solution {
 
@@ -8,6 +6,7 @@ public class Solution {
 
     List<String> messages = new ArrayList<String>();
 
+    // Exemple used for tests
     String messageData[] = {
      
     "72ff1d14-756a-4549-9185-e60e326baf1b,proposal,created,2019-11-11T14:28:01Z,80921e5f-4307-4623-9ddb-5bf826a31dd7,1141424.0,240",
@@ -24,25 +23,17 @@ public class Solution {
       
       messages.add(messageData[i]);
     }
-
-
-    // ------ TEST ------
-    
-
-
-    
-    // ------ /TEST ------
   }
 
 
-  // Execute other methods to proced validation
+  // Execute other methods to proceed validation
   public static String processMessages(List<String> messages) {
 
     
     return "";
   }
 
-  // Filter repited events by ID
+  // Filter repeated events by ID
   public static void validadeID(List<String> messages){
 
     for (int i = 0; i < messages.size() -1; i++){
@@ -57,47 +48,12 @@ public class Solution {
     checkUpdates(messages);
   }
 
+  // Check if an action is a update, then delete outdated actions
   public static void checkUpdates(List<String> messages) {
     
-    String[][] data = splitter(messages);
-
   }
 
-  // Split all message elements to be treated separately
-  public static String[][] splitter(List<String> messages) {
-    /** 
-      * ↓ All message sumary ↓ 
-
-      * event_id - (id da transação): [x][0]
-      * event_schema - (tipo de transação): [x][1]
-      * event_action - (tipo de atualização): [x][2]
-      * event_timestamp - (data do evento): [x][3]
-    */ 
-
-    List<String[]> dataList = new ArrayList<String[]>();
-    String[][] data = new String[messages.size()][10];
-    
-
-    for (int i = 0; i < messages.size(); i++){
-
-      data[i] = messages.get(i).split(",");
-    
-      dataList.add(data[i]);
-    }
-
-    return data;
-  }
-
-  public static Date stringToDate(String stringDate) throws ParseException{
-
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
-      Date date = formatter.parse(stringDate);
-      System.out.println("date: " + date);
-      
-      return date;   
-  }
-
+  // Validates if there are at least one Proponet and their ages are over 18
   public static void validateProponent(String[][] data){
   
     int proponentCount = 0;
@@ -123,14 +79,48 @@ public class Solution {
   }
 
   public static void validateProposal(String[][] data){
-
-    
-
-
-    
+    //not implemented  
   }
+
   public static void validateWarantty(String data){
-
+    //not implemented  
   }
+
+
+  // Tool methods used inside other methods
   
+
+  /* ↓ Data array sumary ↓ 
+  * event_id - (id da transação): [x][0]
+  * event_schema - (tipo de transação): [x][1]
+  * event_action - (tipo de atualização): [x][2]
+  * event_timestamp - (data do evento): [x][3] */
+
+  // Split data in the messages to treat each one separatly
+  public static String[][] splitter(List<String> messages) {
+    
+    List<String[]> dataList = new ArrayList<String[]>();
+    String[][] data = new String[messages.size()][10];
+    
+
+    for (int i = 0; i < messages.size(); i++){
+
+      data[i] = messages.get(i).split(",");
+    
+      dataList.add(data[i]);
+    }
+
+    return data;
+  }
+
+  // Convert de date string passed in the messages to Date object
+  public static Date stringToDate(String stringDate) throws ParseException{
+
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
+      Date date = formatter.parse(stringDate);
+      System.out.println("date: " + date);
+      
+      return date;   
+  }
 }
