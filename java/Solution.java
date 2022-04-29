@@ -28,7 +28,7 @@ public class Solution {
 
   // Execute other methods to proceed validation
   public static String processMessages(List<String> messages) {
-
+    
     
     return "";
   }
