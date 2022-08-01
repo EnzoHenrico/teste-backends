@@ -5,6 +5,8 @@ public class Solution {
   public static String processMessages(List<String> messages) {
 
     List<String[]> splitedMessages = new ArrayList<String[]>();
+    List<String> aprovedIds = new ArrayList<String>();
+    Proposal proposal = new Proposal();
 
     for (String string : messages) {
 
@@ -15,29 +17,34 @@ public class Solution {
 
       String eventId = strings[0];
       String eventAction = strings[1];
+      String eventSchema = strings[2];
       String eventTime = strings[3];
-
-      if (eventAction.equals("proposal")) {
-
+      
+      // Proposal
+      if (eventSchema.equals("proposal")){
         String proposalId = strings[4];
         String proposalLoanValue = strings[5];
-        String proposalMonthlyInstallments = strings[6];
+        String proposalMonthlyInstallments = strings[6];  
+          
+        if (eventAction.equals("created")){
+          proposal.setValues(proposalId, proposalLoanValue, proposalMonthlyInstallments);
+        }
+      }  
 
-        Proposal proposal = new Proposal(eventId, eventAction, eventTime, proposalId, proposalLoanValue,
-            proposalMonthlyInstallments);
-
-        System.out.println(proposal.toString());
-
-      }
-      if (eventAction.equals("waranty")) {
-
+      // Waranty
+      if (eventSchema.equals("waranty")) {
         String warrantyId = strings[4];
         String warrantyValue = strings[5];
         String warrantyProvince = strings[6];
 
-        Waranty waranty = new Waranty(eventId, eventAction, eventTime, warrantyId, warrantyValue, warrantyProvince);
+        if (eventAction.equals("created")){
+          Waranty waranty = new Waranty(warrantyId, warrantyValue, warrantyProvince);
+          proposal.addWaranty(waranty.getString());
+        }
       }
-      if (eventAction.equals("proponent")) {
+
+      // Proponent
+      if (eventSchema.equals("proponent")) {
 
         String proponentId = strings[5];
         String proponentName = strings[6];
@@ -45,24 +52,27 @@ public class Solution {
         String proponentMonthlyIncome = strings[8];
         String proponentIsMain = strings[9];
 
-        Proponent proponent = new Proponent(eventId, eventAction, eventTime, proponentId, proponentName, proponentAge,
-            proponentMonthlyIncome, proponentIsMain);
+        if (eventAction.equals("created")){
+          Proponent proponent = new Proponent(proponentId, proponentName, proponentAge, proponentMonthlyIncome, proponentIsMain);
+          proposal.addProponent(proponent.getString());
+        }
       }
+
+      if (proposal.validateProposal()){
+        aprovedIds.add(proposal.proposalId);
+      }
+      
     }
 
-    return "";
-  }
+    if(aprovedIds.isEmpty()){
+      return null;
+    }
 
-  public void checkLoanValue() {
-
-    // O valor deve ser entre 30.000,00 e 3.000.000,00
-  }
-
-  public void checkTimeToPay() {
-    // Deve ser pago em: 2 anos >= x <= 15 anos
+    return aprovedIds.stream().reduce("", (acc, curr) -> acc + "," + curr);
   }
 
   public void checkWaranty() {
+
     // Pelo menos um garantia por proposta
     // Soma do valor das garantias >= 2 * valor do emprestimo
     // Garantia de imóvel de PR, SC e RS não podi

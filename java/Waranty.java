@@ -1,16 +1,18 @@
-public class Waranty extends Event {
+import java.util.*;
+public class Waranty{
 
     public String warrantyId;
-    public Float warrantyValue;
+    public String warrantyValue;
     public String warrantyProvince;
 
-    public Waranty(String eventId, String eventAction, String eventTime, String warrantyId, String warrantyValue,
-            String warrantyProvince) {
-
-        super(eventId, eventAction, eventTime);
+    public Waranty(String warrantyId, String warrantyValue, String warrantyProvince) {
 
         this.warrantyId = warrantyId;
-        this.warrantyValue = Float.parseFloat(warrantyValue);
+        this.warrantyValue = warrantyValue;
         this.warrantyProvince = warrantyProvince;
+    }
+
+    public String getString(){
+        return warrantyId + "," + warrantyValue + "," + warrantyProvince;
     }
 }
